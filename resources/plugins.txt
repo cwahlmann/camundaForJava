@@ -1,0 +1,6 @@
+https://github.com/bpmn-io/bpmn-js-token-simulation-plugin
+https://github.com/camunda/camunda-modeler-plugins/tree/master/camunda-transaction-boundaries-plugin
+https://github.com/camunda/camunda-modeler-linter-plugin
+https://github.com/umb/camunda-modeler-property-info-plugin
+https://github.com/camunda-consulting/code/tree/master/snippets/camunda-modeler-plugins/bpmn-js-plugin-rename-technical-ids
+https://github.com/viadee/camunda-modeler-tooltip-plugin
