@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1acx9mv" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.11.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+  <bpmn:collaboration id="Collaboration_0hdu29t">
+    <bpmn:participant id="HelloCamundaParticipant" name="Hello Camunda" processRef="HelloCamundaProcess" />
+  </bpmn:collaboration>
+  <bpmn:process id="HelloCamundaProcess" name="Hello Camunda Process" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_1740ueu</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:endEvent id="Event_104dupt">
+      <bpmn:incoming>Flow_01mw2yt</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1740ueu" sourceRef="StartEvent_1" targetRef="SageHalloTask" />
+    <bpmn:sequenceFlow id="Flow_01mw2yt" sourceRef="SageHalloTask" targetRef="Event_104dupt" />
+    <bpmn:serviceTask id="SageHalloTask" name="sage Hallo" camunda:delegateExpression="${helloDelegate}">
+      <bpmn:incoming>Flow_1740ueu</bpmn:incoming>
+      <bpmn:outgoing>Flow_01mw2yt</bpmn:outgoing>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0hdu29t">
+      <bpmndi:BPMNShape id="Participant_1hihsaq_di" bpmnElement="HelloCamundaParticipant" isHorizontal="true">
+        <dc:Bounds x="190" y="110" width="440" height="170" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_01mw2yt_di" bpmnElement="Flow_01mw2yt">
+        <di:waypoint x="470" y="197" />
+        <di:waypoint x="532" y="197" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1740ueu_di" bpmnElement="Flow_1740ueu">
+        <di:waypoint x="315" y="197" />
+        <di:waypoint x="370" y="197" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="279" y="179" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_104dupt_di" bpmnElement="Event_104dupt">
+        <dc:Bounds x="532" y="179" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1tidr3b_di" bpmnElement="SageHalloTask">
+        <dc:Bounds x="370" y="157" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

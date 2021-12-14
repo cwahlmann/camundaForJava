@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0581ld8" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.11.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+  <bpmn:collaboration id="Collaboration_0kwhmlv">
+    <bpmn:participant id="AccumulatorParticipant" name="Accumulator" processRef="AccumulatorProcess" />
+  </bpmn:collaboration>
+  <bpmn:process id="AccumulatorProcess" name="Accumulator Process" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_04vdgdd</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:endEvent id="Event_1712zzj">
+      <bpmn:incoming>Flow_1rpzwnd</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="LoggeEingabenTask" name="logge Eingaben" camunda:asyncBefore="true" camunda:delegateExpression="${loggeEingabenDelegate}">
+      <bpmn:incoming>Flow_04vdgdd</bpmn:incoming>
+      <bpmn:outgoing>Flow_0vypgsj</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="AddiereEingabenTask" name="addiere Eingaben" camunda:asyncBefore="true" camunda:delegateExpression="${addiereEingabenDelegate}">
+      <bpmn:incoming>Flow_0vypgsj</bpmn:incoming>
+      <bpmn:outgoing>Flow_1ugsm9d</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="LoggeAusgabeTask" name="logge Ausgabe" camunda:asyncBefore="true" camunda:delegateExpression="${loggeAusgabeDelegate}">
+      <bpmn:incoming>Flow_1ugsm9d</bpmn:incoming>
+      <bpmn:outgoing>Flow_1rpzwnd</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_04vdgdd" sourceRef="StartEvent_1" targetRef="LoggeEingabenTask" />
+    <bpmn:sequenceFlow id="Flow_0vypgsj" sourceRef="LoggeEingabenTask" targetRef="AddiereEingabenTask" />
+    <bpmn:sequenceFlow id="Flow_1ugsm9d" sourceRef="AddiereEingabenTask" targetRef="LoggeAusgabeTask" />
+    <bpmn:sequenceFlow id="Flow_1rpzwnd" sourceRef="LoggeAusgabeTask" targetRef="Event_1712zzj" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0kwhmlv">
+      <bpmndi:BPMNShape id="Participant_1fmzs76_di" bpmnElement="AccumulatorParticipant" isHorizontal="true">
+        <dc:Bounds x="170" y="80" width="680" height="170" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_04vdgdd_di" bpmnElement="Flow_04vdgdd">
+        <di:waypoint x="258" y="160" />
+        <di:waypoint x="310" y="160" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0vypgsj_di" bpmnElement="Flow_0vypgsj">
+        <di:waypoint x="410" y="160" />
+        <di:waypoint x="470" y="160" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ugsm9d_di" bpmnElement="Flow_1ugsm9d">
+        <di:waypoint x="570" y="160" />
+        <di:waypoint x="630" y="160" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1rpzwnd_di" bpmnElement="Flow_1rpzwnd">
+        <di:waypoint x="730" y="160" />
+        <di:waypoint x="792" y="160" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="222" y="142" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1712zzj_di" bpmnElement="Event_1712zzj">
+        <dc:Bounds x="792" y="142" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0xgrcjv_di" bpmnElement="LoggeEingabenTask">
+        <dc:Bounds x="310" y="120" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0qeb49k_di" bpmnElement="AddiereEingabenTask">
+        <dc:Bounds x="470" y="120" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1fvg4v0_di" bpmnElement="LoggeAusgabeTask">
+        <dc:Bounds x="630" y="120" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
