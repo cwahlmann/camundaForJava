@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 public class HelloDelegateTest {
     @Test
-    void HelloDelegateTest() {
-        new AddiereEingabenDelegate().execute(DelegateExecutionFake.of());
+    void HelloDelegateTest() throws Exception {
+        new HelloDelegate().execute(DelegateExecutionFake.of());
     }
 }
