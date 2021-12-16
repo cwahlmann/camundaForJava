@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0j08xzc" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.11.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+  <bpmn:message id="Message_1gg9r8b" name="Suchergebnis" />
+  <bpmn:collaboration id="Collaboration_13ivpoo">
+    <bpmn:participant id="LookupParticipant" name="Lookup" processRef="LookupProcess" />
+  </bpmn:collaboration>
+  <bpmn:process id="LookupProcess" name="Lookup Process" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_0uszcms</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_0uszcms" sourceRef="StartEvent_1" targetRef="SetzeBusinesskeyTask" />
+    <bpmn:sequenceFlow id="Flow_1duo1n6" sourceRef="SetzeBusinesskeyTask" targetRef="ErfasseNameTask" />
+    <bpmn:serviceTask id="SetzeBusinesskeyTask" name="Setze Businesskey" camunda:asyncBefore="true" camunda:delegateExpression="${setzeBusinesskeyDelegate}">
+      <bpmn:incoming>Flow_0uszcms</bpmn:incoming>
+      <bpmn:outgoing>Flow_1duo1n6</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Event_1piemuf">
+      <bpmn:incoming>Flow_1vk1i1t</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:userTask id="ErfasseNameTask" name="Erfasse Name" camunda:assignee="demo">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="dummy" label="Businesskey" type="string" defaultValue="${execution.getProcessBusinessKey()}" />
+          <camunda:formField id="name" label="Gesuchter Name" type="string" defaultValue="*" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1duo1n6</bpmn:incoming>
+      <bpmn:outgoing>Flow_0xhxxv2</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sendTask id="SendeSuchanfrageTask" name="Sende Suchanfrage" camunda:asyncBefore="true" camunda:delegateExpression="${sendeSuchanfrageDelegate}">
+      <bpmn:incoming>Flow_1usoubp</bpmn:incoming>
+      <bpmn:outgoing>Flow_12gm5wo</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:receiveTask id="EmpfangeSuchergebnisTask" name="Empfange Suchergebnis" messageRef="Message_1gg9r8b">
+      <bpmn:incoming>Flow_0t3a3sn</bpmn:incoming>
+      <bpmn:outgoing>Flow_029t2ne</bpmn:outgoing>
+    </bpmn:receiveTask>
+    <bpmn:serviceTask id="LoggeSuchergebnisTask" name="Logge Suchergebnis" camunda:asyncBefore="true" camunda:delegateExpression="${loggeSuchergebnisDelegate}">
+      <bpmn:incoming>Flow_1w2nvsb</bpmn:incoming>
+      <bpmn:outgoing>Flow_1vk1i1t</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:parallelGateway id="Gateway_0q8iiph">
+      <bpmn:incoming>Flow_0xhxxv2</bpmn:incoming>
+      <bpmn:outgoing>Flow_1usoubp</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0t3a3sn</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:parallelGateway id="Gateway_0xo50jr">
+      <bpmn:incoming>Flow_12gm5wo</bpmn:incoming>
+      <bpmn:incoming>Flow_029t2ne</bpmn:incoming>
+      <bpmn:outgoing>Flow_1w2nvsb</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:sequenceFlow id="Flow_0xhxxv2" sourceRef="ErfasseNameTask" targetRef="Gateway_0q8iiph" />
+    <bpmn:sequenceFlow id="Flow_1usoubp" sourceRef="Gateway_0q8iiph" targetRef="SendeSuchanfrageTask" />
+    <bpmn:sequenceFlow id="Flow_12gm5wo" sourceRef="SendeSuchanfrageTask" targetRef="Gateway_0xo50jr" />
+    <bpmn:sequenceFlow id="Flow_0t3a3sn" sourceRef="Gateway_0q8iiph" targetRef="EmpfangeSuchergebnisTask" />
+    <bpmn:sequenceFlow id="Flow_029t2ne" sourceRef="EmpfangeSuchergebnisTask" targetRef="Gateway_0xo50jr" />
+    <bpmn:sequenceFlow id="Flow_1w2nvsb" sourceRef="Gateway_0xo50jr" targetRef="LoggeSuchergebnisTask" />
+    <bpmn:sequenceFlow id="Flow_1vk1i1t" sourceRef="LoggeSuchergebnisTask" targetRef="Event_1piemuf" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_13ivpoo">
+      <bpmndi:BPMNShape id="Participant_12378hw_di" bpmnElement="LookupParticipant" isHorizontal="true">
+        <dc:Bounds x="129" y="77" width="1110" height="250" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0uszcms_di" bpmnElement="Flow_0uszcms">
+        <di:waypoint x="215" y="197" />
+        <di:waypoint x="260" y="197" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1duo1n6_di" bpmnElement="Flow_1duo1n6">
+        <di:waypoint x="360" y="197" />
+        <di:waypoint x="420" y="197" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0xhxxv2_di" bpmnElement="Flow_0xhxxv2">
+        <di:waypoint x="520" y="197" />
+        <di:waypoint x="575" y="197" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1usoubp_di" bpmnElement="Flow_1usoubp">
+        <di:waypoint x="600" y="172" />
+        <di:waypoint x="600" y="137" />
+        <di:waypoint x="680" y="137" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_12gm5wo_di" bpmnElement="Flow_12gm5wo">
+        <di:waypoint x="780" y="137" />
+        <di:waypoint x="860" y="137" />
+        <di:waypoint x="860" y="172" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0t3a3sn_di" bpmnElement="Flow_0t3a3sn">
+        <di:waypoint x="600" y="222" />
+        <di:waypoint x="600" y="260" />
+        <di:waypoint x="680" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_029t2ne_di" bpmnElement="Flow_029t2ne">
+        <di:waypoint x="780" y="260" />
+        <di:waypoint x="860" y="260" />
+        <di:waypoint x="860" y="222" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1w2nvsb_di" bpmnElement="Flow_1w2nvsb">
+        <di:waypoint x="885" y="197" />
+        <di:waypoint x="940" y="197" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1vk1i1t_di" bpmnElement="Flow_1vk1i1t">
+        <di:waypoint x="1040" y="197" />
+        <di:waypoint x="1102" y="197" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="179" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_09xbw4e_di" bpmnElement="SetzeBusinesskeyTask">
+        <dc:Bounds x="260" y="157" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1piemuf_di" bpmnElement="Event_1piemuf">
+        <dc:Bounds x="1102" y="179" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1pvcawq_di" bpmnElement="ErfasseNameTask">
+        <dc:Bounds x="420" y="157" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1jw428v_di" bpmnElement="SendeSuchanfrageTask">
+        <dc:Bounds x="680" y="97" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1ncpz6n_di" bpmnElement="EmpfangeSuchergebnisTask">
+        <dc:Bounds x="680" y="220" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1dly9dr_di" bpmnElement="LoggeSuchergebnisTask">
+        <dc:Bounds x="940" y="157" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1wa9np2_di" bpmnElement="Gateway_0q8iiph">
+        <dc:Bounds x="575" y="172" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0gz5um8_di" bpmnElement="Gateway_0xo50jr">
+        <dc:Bounds x="835" y="172" width="50" height="50" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
