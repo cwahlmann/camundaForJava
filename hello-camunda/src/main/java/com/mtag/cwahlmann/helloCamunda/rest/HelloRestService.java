@@ -1,6 +1,6 @@
 package com.mtag.cwahlmann.helloCamunda.rest;
 
-import com.mtag.cwahlmann.helloCamunda.prz.HelloProcessConstants;
+import com.mtag.cwahlmann.helloCamunda.prz.hello.HelloProcessConstants;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.slf4j.Logger;

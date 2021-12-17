@@ -1,4 +1,4 @@
-package com.mtag.cwahlmann.helloCamunda.prz.delegate;
+package com.mtag.cwahlmann.helloCamunda.prz.hello.delegate;
 
 import org.camunda.bpm.extension.mockito.delegate.DelegateExecutionFake;
 import org.junit.jupiter.api.Test;

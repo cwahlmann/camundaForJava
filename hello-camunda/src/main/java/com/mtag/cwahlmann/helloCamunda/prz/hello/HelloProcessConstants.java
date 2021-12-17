@@ -1,4 +1,4 @@
-package com.mtag.cwahlmann.helloCamunda.prz;
+package com.mtag.cwahlmann.helloCamunda.prz.hello;
 
 public class HelloProcessConstants {
     private HelloProcessConstants() {

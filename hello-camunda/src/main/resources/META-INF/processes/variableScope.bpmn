@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_18t9wan" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.11.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+  <bpmn:collaboration id="Collaboration_0wkxr49">
+    <bpmn:participant id="VariableScopeParticipant" name="Variable Scope" processRef="VariableScopeProcess" />
+    <bpmn:participant id="SubProcessParticipant" name="Sub Process" processRef="SubProcess" />
+  </bpmn:collaboration>
+  <bpmn:process id="VariableScopeProcess" name="Variable Scope Process" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_0cvd7w2</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="X1Task" name="x=1" camunda:asyncBefore="true" camunda:expression="1" camunda:resultVariable="x">
+      <bpmn:incoming>Flow_0cvd7w2</bpmn:incoming>
+      <bpmn:outgoing>Flow_1mfjqyo</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:callActivity id="CallSubprocessCallActivity" name="call subprocess" camunda:asyncBefore="true" calledElement="SubProcess">
+      <bpmn:incoming>Flow_1mfjqyo</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ym633d</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:serviceTask id="LogXTask" name="log x" camunda:asyncBefore="true" camunda:delegateExpression="${logXDelegate}">
+      <bpmn:incoming>Flow_0ym633d</bpmn:incoming>
+      <bpmn:outgoing>Flow_1inpzki</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Event_0tzyben">
+      <bpmn:incoming>Flow_1inpzki</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0cvd7w2" sourceRef="StartEvent_1" targetRef="X1Task" />
+    <bpmn:sequenceFlow id="Flow_1inpzki" sourceRef="LogXTask" targetRef="Event_0tzyben" />
+    <bpmn:sequenceFlow id="Flow_1mfjqyo" sourceRef="X1Task" targetRef="CallSubprocessCallActivity" />
+    <bpmn:sequenceFlow id="Flow_0ym633d" sourceRef="CallSubprocessCallActivity" targetRef="LogXTask" />
+  </bpmn:process>
+  <bpmn:process id="SubProcess" name="Sub Process" isExecutable="true">
+    <bpmn:startEvent id="Event_07h15ud">
+      <bpmn:outgoing>Flow_1ojegzo</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="X2Task" name="x=2" camunda:asyncBefore="true" camunda:expression="2" camunda:resultVariable="x">
+      <bpmn:incoming>Flow_1ojegzo</bpmn:incoming>
+      <bpmn:outgoing>Flow_1ltro00</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="SublogXTask" name="sublog x" camunda:asyncBefore="true" camunda:delegateExpression="${sublogXDelegate}">
+      <bpmn:incoming>Flow_1ltro00</bpmn:incoming>
+      <bpmn:outgoing>Flow_1spyudf</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Event_0bbw6lb">
+      <bpmn:incoming>Flow_1spyudf</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1ojegzo" sourceRef="Event_07h15ud" targetRef="X2Task" />
+    <bpmn:sequenceFlow id="Flow_1ltro00" sourceRef="X2Task" targetRef="SublogXTask" />
+    <bpmn:sequenceFlow id="Flow_1spyudf" sourceRef="SublogXTask" targetRef="Event_0bbw6lb" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0wkxr49">
+      <bpmndi:BPMNShape id="Participant_0xm53zf_di" bpmnElement="VariableScopeParticipant" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="680" height="170" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0ym633d_di" bpmnElement="Flow_0ym633d">
+        <di:waypoint x="560" y="180" />
+        <di:waypoint x="610" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1mfjqyo_di" bpmnElement="Flow_1mfjqyo">
+        <di:waypoint x="400" y="180" />
+        <di:waypoint x="460" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1inpzki_di" bpmnElement="Flow_1inpzki">
+        <di:waypoint x="710" y="180" />
+        <di:waypoint x="762" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0cvd7w2_di" bpmnElement="Flow_0cvd7w2">
+        <di:waypoint x="248" y="180" />
+        <di:waypoint x="300" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="212" y="162" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1h8n472_di" bpmnElement="X1Task">
+        <dc:Bounds x="300" y="140" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0wr7fy6_di" bpmnElement="CallSubprocessCallActivity">
+        <dc:Bounds x="460" y="140" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1uqg2t8_di" bpmnElement="LogXTask">
+        <dc:Bounds x="610" y="140" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0tzyben_di" bpmnElement="Event_0tzyben">
+        <dc:Bounds x="762" y="162" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Participant_1pu2la6_di" bpmnElement="SubProcessParticipant" isHorizontal="true">
+        <dc:Bounds x="320" y="340" width="540" height="160" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1spyudf_di" bpmnElement="Flow_1spyudf">
+        <di:waypoint x="730" y="420" />
+        <di:waypoint x="792" y="420" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ltro00_di" bpmnElement="Flow_1ltro00">
+        <di:waypoint x="570" y="420" />
+        <di:waypoint x="630" y="420" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ojegzo_di" bpmnElement="Flow_1ojegzo">
+        <di:waypoint x="428" y="420" />
+        <di:waypoint x="470" y="420" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Event_07h15ud_di" bpmnElement="Event_07h15ud">
+        <dc:Bounds x="392" y="402" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_13386pr_di" bpmnElement="X2Task">
+        <dc:Bounds x="470" y="380" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0ni2r8r_di" bpmnElement="SublogXTask">
+        <dc:Bounds x="630" y="380" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0bbw6lb_di" bpmnElement="Event_0bbw6lb">
+        <dc:Bounds x="792" y="402" width="36" height="36" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -1,4 +1,4 @@
-package com.mtag.cwahlmann.helloCamunda.prz.delegate;
+package com.mtag.cwahlmann.helloCamunda.prz.hello.delegate;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
