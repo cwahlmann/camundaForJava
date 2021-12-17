@@ -10,16 +10,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.ws.rs.Path;
+
 @RestController
-//@Path("/hello")
 public class HelloRestService {
     public static final Logger log = LoggerFactory.getLogger(HelloRestService.class);
 
     @Autowired
     private RuntimeService runtimeService;
 
-    @GetMapping("/start/{pid}")
-    public String greeting(@PathVariable(value = "message") String message) {
+    @GetMapping("/hello/start")
+    public String greeting() {
         try {
             ProcessInstance instance = runtimeService.startProcessInstanceByKey(HelloProcessConstants.PROCESS_ID);
             return "{\"pid\":\""+ HelloProcessConstants.PROCESS_ID+"\", \"InstanceId\":\"" + instance.getProcessInstanceId() + "\"}";
