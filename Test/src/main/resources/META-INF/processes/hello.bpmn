@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_04lmz48" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.11.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+  <bpmn:collaboration id="Collaboration_0n9suh8">
+    <bpmn:participant id="FredParticipant" name="Fred" processRef="HalloProzess" />
+  </bpmn:collaboration>
+  <bpmn:process id="HalloProzess" name="Hallo Prozess" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_1i3bcv9</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1i3bcv9" sourceRef="StartEvent_1" targetRef="Activity_18vjgey" />
+    <bpmn:sequenceFlow id="Flow_0c0wfi6" sourceRef="SageHalloTask" targetRef="Event_1q2fi9c" />
+    <bpmn:endEvent id="Event_1q2fi9c">
+      <bpmn:incoming>Flow_0c0wfi6</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="SageHalloTask" name="sage Hallo" camunda:asyncBefore="true" camunda:delegateExpression="${sageHalloBean}">
+      <bpmn:incoming>Flow_0d85vxe</bpmn:incoming>
+      <bpmn:outgoing>Flow_0c0wfi6</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0d85vxe" sourceRef="Activity_18vjgey" targetRef="SageHalloTask" />
+    <bpmn:serviceTask id="Activity_18vjgey" name="erzeuge Nachricht" camunda:delegateExpression="${erzeugeNachrichtDelegate}">
+      <bpmn:incoming>Flow_1i3bcv9</bpmn:incoming>
+      <bpmn:outgoing>Flow_0d85vxe</bpmn:outgoing>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0n9suh8">
+      <bpmndi:BPMNShape id="Participant_1bng5hu_di" bpmnElement="FredParticipant" isHorizontal="true">
+        <dc:Bounds x="150" y="85" width="1110" height="250" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1i3bcv9_di" bpmnElement="Flow_1i3bcv9">
+        <di:waypoint x="288" y="210" />
+        <di:waypoint x="440" y="210" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0c0wfi6_di" bpmnElement="Flow_0c0wfi6">
+        <di:waypoint x="810" y="210" />
+        <di:waypoint x="1152" y="210" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0d85vxe_di" bpmnElement="Flow_0d85vxe">
+        <di:waypoint x="540" y="210" />
+        <di:waypoint x="710" y="210" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="252" y="192" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1q2fi9c_di" bpmnElement="Event_1q2fi9c">
+        <dc:Bounds x="1152" y="192" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1a8pm1v_di" bpmnElement="SageHalloTask">
+        <dc:Bounds x="710" y="170" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1tb9usw_di" bpmnElement="Activity_18vjgey">
+        <dc:Bounds x="440" y="170" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

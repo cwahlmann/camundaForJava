@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0mm8zsp" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.11.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+  <bpmn:process id="TaschenrechnerProzessProcess" name="Taschenrechner Prozess" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_1p4a3mj</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1p4a3mj" sourceRef="StartEvent_1" targetRef="Gateway_1t9asp1" />
+    <bpmn:sequenceFlow id="Flow_18nan62" sourceRef="ErfasseEingabenTask" targetRef="LoggeEingabenTask" />
+    <bpmn:serviceTask id="LoggeEingabenTask" name="Logge Eingaben" camunda:asyncBefore="true" camunda:delegateExpression="${loggeEingabenDelegate}">
+      <bpmn:incoming>Flow_18nan62</bpmn:incoming>
+      <bpmn:outgoing>Flow_09zjfr7</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_09zjfr7" sourceRef="LoggeEingabenTask" targetRef="ErrechneErgebnisTask" />
+    <bpmn:serviceTask id="ErrechneErgebnisTask" name="Errechne Ergebnis" camunda:asyncBefore="true" camunda:delegateExpression="${errechneErgebnisDelegate}">
+      <bpmn:incoming>Flow_09zjfr7</bpmn:incoming>
+      <bpmn:outgoing>Flow_0se1bc9</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0se1bc9" sourceRef="ErrechneErgebnisTask" targetRef="Gateway_0z2vkyl" />
+    <bpmn:serviceTask id="LoggeErgebnisTask" name="Logge Ergebnis" camunda:asyncBefore="true" camunda:delegateExpression="${loggeErgebnisDelegate}">
+      <bpmn:incoming>Flow_18edi7g</bpmn:incoming>
+      <bpmn:outgoing>Flow_1tupg74</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="ErfasseEingabenTask" name="Erfasse Eingaben" camunda:assignee="demo">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="x" label="x" type="long" defaultValue="0" />
+          <camunda:formField id="y" label="y" type="long" defaultValue="0" />
+          <camunda:formField id="o" label="Operation" type="enum" defaultValue="PLUS">
+            <camunda:value id="PLUS" name="+" />
+            <camunda:value id="DIVIDE" name="/" />
+            <camunda:value id="GIBTS_NICHT" name="/&#38;(&#34;§&#34;" />
+          </camunda:formField>
+          <camunda:formField id="nachricht" label="Nachricht" type="string" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0nfd9lq</bpmn:incoming>
+      <bpmn:outgoing>Flow_18nan62</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="Event_06g246p">
+      <bpmn:incoming>Flow_1tupg74</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1tupg74" sourceRef="LoggeErgebnisTask" targetRef="Event_06g246p" />
+    <bpmn:exclusiveGateway id="Gateway_1t9asp1">
+      <bpmn:incoming>Flow_1p4a3mj</bpmn:incoming>
+      <bpmn:incoming>Flow_12gklpt</bpmn:incoming>
+      <bpmn:outgoing>Flow_0nfd9lq</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_0nfd9lq" sourceRef="Gateway_1t9asp1" targetRef="ErfasseEingabenTask" />
+    <bpmn:exclusiveGateway id="Gateway_0z2vkyl" name="Ist die Antwort 42?" default="Flow_18edi7g">
+      <bpmn:incoming>Flow_0se1bc9</bpmn:incoming>
+      <bpmn:outgoing>Flow_18edi7g</bpmn:outgoing>
+      <bpmn:outgoing>Flow_134ooe3</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_18edi7g" name="Nein" sourceRef="Gateway_0z2vkyl" targetRef="LoggeErgebnisTask" />
+    <bpmn:sequenceFlow id="Flow_134ooe3" name="Ja" sourceRef="Gateway_0z2vkyl" targetRef="LoggeDieAntwortTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${execution.getVariable("z") == 42}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:serviceTask id="LoggeDieAntwortTask" name="Logge Die Antwort" camunda:asyncBefore="true" camunda:delegateExpression="${loggeDieAntwortDelegate}">
+      <bpmn:incoming>Flow_134ooe3</bpmn:incoming>
+      <bpmn:outgoing>Flow_00ug29u</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Event_0s6w9tw">
+      <bpmn:incoming>Flow_00ug29u</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_00ug29u" sourceRef="LoggeDieAntwortTask" targetRef="Event_0s6w9tw" />
+    <bpmn:boundaryEvent id="EingabeFeherhaftBoundaryEvent" name="Eingabe feherhaft" attachedToRef="ErrechneErgebnisTask">
+      <bpmn:outgoing>Flow_1gltes1</bpmn:outgoing>
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_1i8emvw" camunda:errorCodeVariable="errorcode" camunda:errorMessageVariable="errormsg" />
+    </bpmn:boundaryEvent>
+    <bpmn:sequenceFlow id="Flow_1gltes1" sourceRef="EingabeFeherhaftBoundaryEvent" targetRef="ErzeugeFehlernachrichtTask" />
+    <bpmn:sequenceFlow id="Flow_12gklpt" sourceRef="ErzeugeFehlernachrichtTask" targetRef="Gateway_1t9asp1" />
+    <bpmn:serviceTask id="ErzeugeFehlernachrichtTask" name="Erzeuge Fehlernachricht" camunda:asyncBefore="true" camunda:delegateExpression="${erzeugeFehlernachrichtDelegate}">
+      <bpmn:incoming>Flow_1gltes1</bpmn:incoming>
+      <bpmn:outgoing>Flow_12gklpt</bpmn:outgoing>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="TaschenrechnerProzessProcess">
+      <bpmndi:BPMNEdge id="Flow_1p4a3mj_di" bpmnElement="Flow_1p4a3mj">
+        <di:waypoint x="188" y="120" />
+        <di:waypoint x="255" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_18nan62_di" bpmnElement="Flow_18nan62">
+        <di:waypoint x="480" y="120" />
+        <di:waypoint x="540" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_09zjfr7_di" bpmnElement="Flow_09zjfr7">
+        <di:waypoint x="640" y="120" />
+        <di:waypoint x="700" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0se1bc9_di" bpmnElement="Flow_0se1bc9">
+        <di:waypoint x="800" y="120" />
+        <di:waypoint x="875" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1tupg74_di" bpmnElement="Flow_1tupg74">
+        <di:waypoint x="1110" y="120" />
+        <di:waypoint x="1212" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0nfd9lq_di" bpmnElement="Flow_0nfd9lq">
+        <di:waypoint x="305" y="120" />
+        <di:waypoint x="380" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_18edi7g_di" bpmnElement="Flow_18edi7g">
+        <di:waypoint x="925" y="120" />
+        <di:waypoint x="1010" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="956" y="102" width="23" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_134ooe3_di" bpmnElement="Flow_134ooe3">
+        <di:waypoint x="900" y="145" />
+        <di:waypoint x="900" y="230" />
+        <di:waypoint x="1010" y="230" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="909" y="185" width="12" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_00ug29u_di" bpmnElement="Flow_00ug29u">
+        <di:waypoint x="1110" y="230" />
+        <di:waypoint x="1202" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1gltes1_di" bpmnElement="Flow_1gltes1">
+        <di:waypoint x="750" y="178" />
+        <di:waypoint x="750" y="270" />
+        <di:waypoint x="640" y="270" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_12gklpt_di" bpmnElement="Flow_12gklpt">
+        <di:waypoint x="540" y="270" />
+        <di:waypoint x="280" y="270" />
+        <di:waypoint x="280" y="145" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="152" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1kizlbo_di" bpmnElement="LoggeEingabenTask">
+        <dc:Bounds x="540" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_18n7usv_di" bpmnElement="ErrechneErgebnisTask">
+        <dc:Bounds x="700" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0ko74qi_di" bpmnElement="ErfasseEingabenTask">
+        <dc:Bounds x="380" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1t9asp1_di" bpmnElement="Gateway_1t9asp1" isMarkerVisible="true">
+        <dc:Bounds x="255" y="95" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_06g246p_di" bpmnElement="Event_06g246p">
+        <dc:Bounds x="1212" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0z2vkyl_di" bpmnElement="Gateway_0z2vkyl" isMarkerVisible="true">
+        <dc:Bounds x="875" y="95" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="865" y="65" width="71" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0yuolfh_di" bpmnElement="LoggeErgebnisTask">
+        <dc:Bounds x="1010" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1coei9d_di" bpmnElement="LoggeDieAntwortTask">
+        <dc:Bounds x="1010" y="190" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0s6w9tw_di" bpmnElement="Event_0s6w9tw">
+        <dc:Bounds x="1202" y="212" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0564fmy_di" bpmnElement="ErzeugeFehlernachrichtTask">
+        <dc:Bounds x="540" y="230" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_194uyw0_di" bpmnElement="EingabeFeherhaftBoundaryEvent">
+        <dc:Bounds x="732" y="142" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="756" y="183" width="88" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

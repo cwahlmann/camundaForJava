@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0581ld8" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.11.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
   <bpmn:collaboration id="Collaboration_0kwhmlv">
-    <bpmn:participant id="Calculator2Participant" name="Calculator2" processRef="Calculator2Process" />
+    <bpmn:participant id="GECOCONTRPRZXYZASYNCParticipant" name="GECO.CONTR.PRZ.XYZ.ASYNC" processRef="GECO.CONTR.PRZ.XYZ.ASYNC" />
   </bpmn:collaboration>
-  <bpmn:process id="Calculator2Process" name="Calculator 2 Process" isExecutable="true">
+  <bpmn:process id="GECO.CONTR.PRZ.XYZ.ASYNC" name="Calculator 2 Process" isExecutable="true">
     <bpmn:serviceTask id="LoggeEingabenTask" name="Logge Eingaben" camunda:asyncBefore="true" camunda:delegateExpression="${loggeEingabenDelegate2}">
       <bpmn:incoming>Flow_0r37z9x</bpmn:incoming>
       <bpmn:outgoing>Flow_0vypgsj</bpmn:outgoing>
@@ -84,7 +84,7 @@
   <bpmn:error id="Error_1h43gm7" name="Error_3j2vcvn" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0kwhmlv">
-      <bpmndi:BPMNShape id="Participant_1fmzs76_di" bpmnElement="Calculator2Participant" isHorizontal="true">
+      <bpmndi:BPMNShape id="Participant_1fmzs76_di" bpmnElement="GECOCONTRPRZXYZASYNCParticipant" isHorizontal="true">
         <dc:Bounds x="150" y="80" width="1050" height="270" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_1silwfz_di" bpmnElement="Flow_1silwfz">
